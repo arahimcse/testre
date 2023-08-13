@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import UserInfo from './components/UserInfo.vue';
 </script>
 
 <template>
@@ -18,6 +19,7 @@ import HelloWorld from './components/HelloWorld.vue'
   </header>
 
   <RouterView />
+  <UserInfo/>
 </template>
 
 <style scoped>
