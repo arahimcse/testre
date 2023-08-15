@@ -11,7 +11,6 @@ defineEmits(['enlarge-text'])
  * const emits = defineEmits(['enlarge-text'])
  * emits('enlarge-text')
  */
-
 </script>
 
 <template>

@@ -12,6 +12,7 @@ import ButtonCount from './components/ButtonCount.vue';
  */
 import BlogPost from './components/BlogPost.vue'
 import ListingEvent from './components/ListingEvent.vue';
+import ComponentSlot from './components/ComponentSlot.vue';
 
 
 const posts = ref([
@@ -67,6 +68,10 @@ const postFontSize = ref(1)
       :title ="post.title"
       @enlarge-text="postFontSize +=0.1"
       />
+    </div>
+
+    <div class="my-5 container text-left w-3/12 mx-auto border border-red-600 p-4">
+      <ComponentSlot>This is an alert box</ComponentSlot>
     </div>
   </div>
 </template>
