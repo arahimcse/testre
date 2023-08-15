@@ -11,6 +11,7 @@ import ButtonCount from './components/ButtonCount.vue';
  * Link@ https://vuejs.org/guide/essentials/component-basics.html#passing-props
  */
 import BlogPost from './components/BlogPost.vue'
+import ListingEvent from './components/ListingEvent.vue';
 
 
 const posts = ref([
@@ -19,6 +20,10 @@ const posts = ref([
   { id: 3, title: 'Why Vue is so fun' }
 ])
 
+/**
+ * 
+ */
+const postFontSize = ref(1)
 </script>
 
 <template>
@@ -45,12 +50,22 @@ const posts = ref([
       <BlogPost title="Why Vue is so fun" />
     </div> -->
     
-    <div class="items">
+    <div class="my-5">
       <h2 class=" text-violet-500">Passing Props (as an array of posts in your parent component)</h2>
       <BlogPost 
       v-for="post in posts"
       :key="post.id"
       :title="post.title"
+      />
+    </div>
+
+    <div class="my-5 text-red-400" :style="{ fontSize: postFontSize + 'em' }">
+      <h2 class=" text-violet-500">Listening to Events(click event communication back to the parent)</h2>
+      <ListingEvent
+      v-for="post in posts"
+      :key="post.id"
+      :title ="post.title"
+      @enlarge-text="postFontSize +=0.1"
       />
     </div>
   </div>
