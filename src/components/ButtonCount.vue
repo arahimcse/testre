@@ -1,4 +1,14 @@
 <script setup>
+/**
+ * #Components Basics
+ * Link@  https://vuejs.org/guide/essentials/component-basics.html
+ * 
+ */
+
+/**
+ * #Defining a Component
+ * Link@ https://vuejs.org/guide/essentials/component-basics.html#defining-a-component
+ */
 import { ref } from 'vue'
 
 const count = ref(0)
