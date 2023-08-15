@@ -1,5 +1,8 @@
 <script  setup>
-
+/**
+ * #Content Distribution with Slots
+ * Link@ https://vuejs.org/guide/essentials/component-basics.html#content-distribution-with-slots
+ */
 </script>
 
 <template>
