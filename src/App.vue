@@ -103,16 +103,17 @@ const tabs = {
     </div>
     
     <div class="my-5 mx-auto p-4">
+      {{ currentTab }}
       <h2>Another Dynamic Components Example</h2>
       <ul>
         <button class="mx-2 py-2 px-1 border border-yellow-600 text-white bg-slate-400"  
-        v-for="(_, tab) in tabs"
+        v-for="(tab,index) in tabs"
        :key="tab"
-       :class="{ active: currentTab === tab }"
-       @click="currentTab = tab"> {{ tab }}</button>
+       :class="{ active: currentTab === index }"
+       @click="currentTab = index"> {{ index }}</button>
       </ul>
       <KeepAlive>
-        <component :is="tabs[currentTab]" class="tab"></component>
+        <component :is="tabs[currentTab]"></component>
       </KeepAlive>
     </div>
   </div>
