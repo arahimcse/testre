@@ -1,5 +1,6 @@
 <script  setup>
 import { ref } from 'vue'
+import { shallowRef } from 'vue'
 /**
  * #Using a Component
  * Link@ https://vuejs.org/guide/essentials/component-basics.html#using-a-component
@@ -25,6 +26,31 @@ const posts = ref([
  * 
  */
 const postFontSize = ref(1)
+
+
+
+/**
+ * #Dynamic Components
+ * Link@ https://vuejs.org/guide/essentials/component-basics.html#dynamic-components
+ */
+import CompA from './components/dcomponents/CompA.vue';
+import CompB from './components/dcomponents/CompB.vue';
+import CompC from './components/dcomponents/CompC.vue';
+const isActive = shallowRef(CompA)
+
+/**
+ * Another Dynamic components Example
+ */
+import Home from './components/adcomponents/Home.vue';
+import About from './components/adcomponents/About.vue';
+import Archive from './components/adcomponents/Archive.vue';
+const currentTab = ref('Home')
+
+const tabs = {
+  Home,
+  About,
+  Archive
+}
 </script>
 
 <template>
@@ -50,28 +76,44 @@ const postFontSize = ref(1)
       <BlogPost title="Blogging with Vue" />
       <BlogPost title="Why Vue is so fun" />
     </div> -->
-    
+
     <div class="my-5">
       <h2 class=" text-violet-500">Passing Props (as an array of posts in your parent component)</h2>
-      <BlogPost 
-      v-for="post in posts"
-      :key="post.id"
-      :title="post.title"
-      />
+      <BlogPost v-for="post in posts" :key="post.id" :title="post.title" />
     </div>
 
     <div class="my-5 text-red-400" :style="{ fontSize: postFontSize + 'em' }">
       <h2 class=" text-violet-500">Listening to Events(click event communication back to the parent)</h2>
-      <ListingEvent
-      v-for="post in posts"
-      :key="post.id"
-      :title ="post.title"
-      @enlarge-text="postFontSize +=0.1"
-      />
+      <ListingEvent v-for="post in posts" :key="post.id" :title="post.title" @enlarge-text="postFontSize += 0.1" />
     </div>
 
     <div class="my-5 container text-left w-3/12 mx-auto border border-red-600 p-4">
       <ComponentSlot>This is an alert box</ComponentSlot>
+    </div>
+
+
+    <div class="my-5 mx-auto p-4">
+      <h2>Dynamic Components Example</h2>
+      <label ><input type="radio" v-model="isActive" :value="CompA" /> A</label>
+      <label class="mx-2"><input type="radio" v-model="isActive" :value="CompB" /> B</label>
+      <label><input type="radio" v-model="isActive" :value="CompC" /> C</label>
+      <KeepAlive>
+        <component :is="isActive"></component>
+      </KeepAlive>
+    </div>
+    
+    <div class="my-5 mx-auto p-4">
+      <h2>Another Dynamic Components Example</h2>
+      <ul>
+        <button class="mx-2 py-2 px-1 border border-yellow-600 text-white bg-slate-400"  
+        v-for="(_, tab) in tabs"
+       :key="tab"
+       :class="{ active: currentTab === tab }"
+       @click="currentTab = tab"> {{ tab }}</button>
+      </ul>
+      <KeepAlive>
+        <component :is="tabs[currentTab]" class="tab"></component>
+      </KeepAlive>
     </div>
   </div>
 </template>
