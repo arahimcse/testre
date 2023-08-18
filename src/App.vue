@@ -63,9 +63,25 @@ import ComponentPops from './components/ComponentPops.vue';
  * Link@ https://vuejs.org/guide/components/props.html#static-vs-dynamic-props
  */
 const items = reactive({
-  title:"Parenting",
-  author:{name:"Abdur Rahim", age:35}
-}) 
+  title: "Parenting",
+  author: { name: "Abdur Rahim", age: 35 }
+})
+
+/**
+ * #Component Events
+ * Link@ https://vuejs.org/guide/components/events.html#component-events
+ */
+import MyComponents from './components/MyComponents.vue';
+const count = ref(1)
+const count1 = ref(1)
+const count2 = ref(1)
+
+function increaseCount(n) {
+  count2.value += n
+}
+import Button from './components/buttons/Button.vue'
+import Button1 from './components/buttons/Button1.vue'
+import Button2 from './components/buttons/Button2.vue'
 </script>
 
 <template>
@@ -109,22 +125,19 @@ const items = reactive({
 
     <div class="my-5 mx-auto p-4">
       <h2>Dynamic Components Example</h2>
-      <label ><input type="radio" v-model="isActive" :value="CompA" /> A</label>
+      <label><input type="radio" v-model="isActive" :value="CompA" /> A</label>
       <label class="mx-2"><input type="radio" v-model="isActive" :value="CompB" /> B</label>
       <label><input type="radio" v-model="isActive" :value="CompC" /> C</label>
       <KeepAlive>
         <component :is="isActive"></component>
       </KeepAlive>
     </div>
-    
+
     <div class="my-5 mx-auto p-4">
       <h2>Another Dynamic Components Example</h2>
       <ul>
-        <button class="mx-2 py-2 px-1 border border-yellow-600 text-white bg-slate-400"  
-        v-for="(tab,index) in tabs"
-       :key="tab"
-       :class="{ active: currentTab === index }"
-       @click="currentTab = index"> {{ index }}</button>
+        <button class="mx-2 py-2 px-1 border border-yellow-600 text-white bg-slate-400" v-for="(tab, index) in tabs"
+          :key="tab" :class="{ active: currentTab === index }" @click="currentTab = index"> {{ index }}</button>
       </ul>
       <KeepAlive>
         <component :is="tabs[currentTab]"></component>
@@ -133,21 +146,21 @@ const items = reactive({
 
     <div class="my-5 mx-auto">
       <h2>Props Declaration</h2>
-      <ComponentPops title="this is title"/>
+      <ComponentPops title="this is title" />
     </div>
-    
-    
+
+
     <div class="my-5 mx-auto">
       <h2>Prop Passing Details</h2>
       <!-- <ComponentPops getting-message="Hello"/> -->
-      <ComponentPops gettingMessage="Hello"/>
+      <ComponentPops gettingMessage="Hello" />
     </div>
-    
+
     <div class="my-5 mx-auto">
       <h2>Prop static values</h2>
       <ComponentPops title="My journey with Vue" />
     </div>
-    
+
     <div class="my-5 mx-auto">
       <h2>Prop assigned dynamically</h2>
       <!-- Dynamically assign the value of a variable -->
@@ -155,13 +168,42 @@ const items = reactive({
 
       <!-- Dynamically assign the value of a complex expression -->
       <ComponentPops :title="items.title + ' by ' + items.author.name" />
+    </div>
+
+    <div class="my-5 mx-auto">
+      <h2>Binding Multiple Properties Using an Object</h2>
+
+      <ComponentPops v-bind="items" />
+      <!-- <ComponentPops :title="items.title + ' by ' + items.author.name" /> -->
+    </div>
+
+    <div class="my-5 mx-auto">
+      <h2>Component Events(Emitting and Listening to Events)</h2>
+
+      <MyComponents>
+        <template #button1>
+          <Button @some-event="count++" > {{ count }}</Button>
+        </template>
+
+      </MyComponents>
+    </div>
+
+    <div class="my-5 mx-auto">
+      <h2>Event Arguments</h2>
+      <MyComponents >
+        <template #button2>
+          <Button1 @increase-by="(n) => count1 += n" >{{ count1 }}</Button1>
+        </template>
+      </MyComponents>
     </div> 
     
     <div class="my-5 mx-auto">
-      <h2>Binding Multiple Properties Using an Object</h2>
-      
-      <ComponentPops v-bind="items" />
-      <!-- <ComponentPops :title="items.title + ' by ' + items.author.name" /> -->
+      <h2>Event Arguments</h2>
+      <MyComponents >
+        <template #button3>
+          <Button2 @increase-by="increaseCount">{{ count2 }}</Button2>
+        </template>
+      </MyComponents>
     </div>
   </div>
 </template>
