@@ -1,6 +1,5 @@
 <script  setup>
-import { ref } from 'vue'
-import { shallowRef } from 'vue'
+import { ref, reactive, shallowRef } from 'vue'
 /**
  * #Using a Component
  * Link@ https://vuejs.org/guide/essentials/component-basics.html#using-a-component
@@ -51,6 +50,22 @@ const tabs = {
   About,
   Archive
 }
+
+/**
+ * #Props Declaration
+ * https://vuejs.org/guide/components/props.html#props-declaration
+ */
+
+import ComponentPops from './components/ComponentPops.vue';
+
+/**
+ * #Static vs. Dynamic Props
+ * Link@ https://vuejs.org/guide/components/props.html#static-vs-dynamic-props
+ */
+const items = reactive({
+  title:"Parenting",
+  author:{name:"Abdur Rahim", age:35}
+}) 
 </script>
 
 <template>
@@ -103,7 +118,6 @@ const tabs = {
     </div>
     
     <div class="my-5 mx-auto p-4">
-      {{ currentTab }}
       <h2>Another Dynamic Components Example</h2>
       <ul>
         <button class="mx-2 py-2 px-1 border border-yellow-600 text-white bg-slate-400"  
@@ -115,6 +129,39 @@ const tabs = {
       <KeepAlive>
         <component :is="tabs[currentTab]"></component>
       </KeepAlive>
+    </div>
+
+    <div class="my-5 mx-auto">
+      <h2>Props Declaration</h2>
+      <ComponentPops title="this is title"/>
+    </div>
+    
+    
+    <div class="my-5 mx-auto">
+      <h2>Prop Passing Details</h2>
+      <!-- <ComponentPops getting-message="Hello"/> -->
+      <ComponentPops gettingMessage="Hello"/>
+    </div>
+    
+    <div class="my-5 mx-auto">
+      <h2>Prop static values</h2>
+      <ComponentPops title="My journey with Vue" />
+    </div>
+    
+    <div class="my-5 mx-auto">
+      <h2>Prop assigned dynamically</h2>
+      <!-- Dynamically assign the value of a variable -->
+      <ComponentPops :title="items.title" />
+
+      <!-- Dynamically assign the value of a complex expression -->
+      <ComponentPops :title="items.title + ' by ' + items.author.name" />
+    </div> 
+    
+    <div class="my-5 mx-auto">
+      <h2>Binding Multiple Properties Using an Object</h2>
+      
+      <ComponentPops v-bind="items" />
+      <!-- <ComponentPops :title="items.title + ' by ' + items.author.name" /> -->
     </div>
   </div>
 </template>
