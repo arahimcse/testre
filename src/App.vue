@@ -82,6 +82,20 @@ function increaseCount(n) {
 import Button from './components/buttons/Button.vue'
 import Button1 from './components/buttons/Button1.vue'
 import Button2 from './components/buttons/Button2.vue'
+
+/**
+ * #Component v-model
+ * Link@ https://vuejs.org/guide/components/v-model.html#component-v-model
+ */
+import ComponentsModel from './components/ComponentsModel.vue';
+const person =reactive({
+  name:"Abdur Rahim",
+  gender:"Male",
+  about:"This is abdur rahim from tangail. He is a govt. serven. His occupation is teaching on a college as lecturer.",
+  age:34,
+  designation:"Craft Instructor"
+})
+
 </script>
 
 <template>
@@ -204,6 +218,16 @@ import Button2 from './components/buttons/Button2.vue'
           <Button2 @increase-by="increaseCount">{{ count2 }}</Button2>
         </template>
       </MyComponents>
+    </div> 
+    
+    <div class="my-5 mx-auto">
+      <h2>Component v-model</h2>
+      <!-- <ComponentsModel v-model="person.name"/> this will set default props name "modelValue" -->
+      <ComponentsModel v-model:name="person.name"/> <!-- this will set props name "name" -->
+      <form action="">
+        <label for="name">Parent </label>
+        <input  id="name" v-model="person.name">
+      </form>
     </div>
   </div>
 </template>
