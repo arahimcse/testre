@@ -96,6 +96,15 @@ const person =reactive({
   designation:"Craft Instructor"
 })
 
+/**
+ * #Provide / Inject
+ * Link@ https://vuejs.org/guide/components/provide-inject.html#provide-inject
+ */
+import { provide } from 'vue'
+const message = ref('hello')
+provide('message', message)
+import Child from './components/Child.vue';
+import ProviderItem from './components/ProviderItem.vue';
 </script>
 
 <template>
@@ -228,6 +237,17 @@ const person =reactive({
         <label for="name">Parent </label>
         <input  id="name" v-model="person.name">
       </form>
+    </div>
+    
+    <div class="my-5 mx-auto flex flex-col">
+      <h2>Provide / Inject</h2>
+      <input type="text" v-model="message">
+      <Child/>
+    </div>
+
+    <div class="my-5 mx-auto flex flex-col">
+      <h2>Provide / Inject Example 1</h2>
+      <ProviderItem/>
     </div>
   </div>
 </template>
