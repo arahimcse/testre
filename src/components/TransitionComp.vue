@@ -20,40 +20,48 @@ const isShow = ref(true)
 const query = ref('')
 
 const list = [
-  { msg: 'Bruce Lee' },
-  { msg: 'Jackie Chan' },
-  { msg: 'Chuck Norris' },
-  { msg: 'Jet Li' },
-  { msg: 'Kung Fury' }
+    { msg: 'Bruce Lee' },
+    { msg: 'Jackie Chan' },
+    { msg: 'Chuck Norris' },
+    { msg: 'Jet Li' },
+    { msg: 'Kung Fury' }
 ]
 
-const computedList = computed(()=>{
-    return list.filter((item)=>item.msg.toLowerCase().includes(query.value))
+const computedList = computed(() => {
+    return list.filter((item) => item.msg.toLowerCase().includes(query.value))
 })
 
 function onBeforeEnter(el) {
-  el.style.opacity = 0
-  el.style.height = 0
+    el.style.opacity = 0
+    el.style.height = 0
 }
 
 function onEnter(el, done) {
-  gsap.to(el, {
-    opacity: 1,
-    height: '1.6em',
-    delay: el.dataset.index * 0.15,
-    onComplete: done
-  })
+    gsap.to(el, {
+        opacity: 1,
+        height: '1.6em',
+        delay: el.dataset.index * 0.15,
+        onComplete: done
+    })
 }
 
 function onLeave(el, done) {
-  gsap.to(el, {
-    opacity: 0,
-    height: 0,
-    delay: el.dataset.index * 0.15,
-    onComplete: done
-  })
+    gsap.to(el, {
+        opacity: 0,
+        height: 0,
+        delay: el.dataset.index * 0.15,
+        onComplete: done
+    })
 }
 
+/**
+ * #KeepAlive
+ * Link@ https://vuejs.org/guide/built-ins/keep-alive.html#keepalive
+ */
+import CompA from './button/CompA.vue';
+import CompB from './button/CompB.vue';
+import { shallowRef } from 'vue';
+const current = shallowRef(CompA)
 </script>
 
 <template>
@@ -76,31 +84,38 @@ function onLeave(el, done) {
 
         <div class="transition-container">
             <input v-model="query">
-            <TransitionGroup 
-            tag="ul"
-            :css="false"
-            @before-enter="onBeforeEnter"
-            @enter="onEnter"
-            @leave="onLeave"
-            >
+            <TransitionGroup tag="ul" :css="false" @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
                 <li v-for="(item, index) in computedList" :key="item.msg" :data-index="index">
                     {{ item.msg }}
                 </li>
             </TransitionGroup>
         </div>
 
+        <div class="keep-alive">
+            <label> <input v-model="current" :value="CompA" type="radio"/> A </label>
+            <label> <input v-model="current" :value="CompB" type="radio"/> B </label>
+            <keep-alive>
+                <component :is="current"></component>
+            </keep-alive>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.container{
+.container {
     display: flex;
     flex-flow: column wrap;
     align-content: center;
 }
-.transition-container{
- margin: 10px auto;
- padding: 5px;
+
+.transition-container {
+    margin: 10px auto;
+    padding: 5px;
+}
+
+.keep-alive{
+    display: flex;
+    flex-flow: column wrap;
 }
 .v-enter-active,
 .v-leave-active {
@@ -147,5 +162,4 @@ function onLeave(el, done) {
 /**
 Section 3 for the  transition group animations
  */
-
 </style>
