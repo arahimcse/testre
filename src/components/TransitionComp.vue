@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import gsap from 'gsap'
 /**
  * #Transition
  * Link@ https://vuejs.org/guide/built-ins/transition.html#transition
@@ -11,6 +12,48 @@ const show = ref(true)
  * Link@ https://vuejs.org/guide/built-ins/transition.html#named-transitions
  */
 const isShow = ref(true)
+
+/**
+ * #TransitionGroup
+ * Link@ https://vuejs.org/guide/built-ins/transition-group.html#transitiongroup
+ */
+const query = ref('')
+
+const list = [
+  { msg: 'Bruce Lee' },
+  { msg: 'Jackie Chan' },
+  { msg: 'Chuck Norris' },
+  { msg: 'Jet Li' },
+  { msg: 'Kung Fury' }
+]
+
+const computedList = computed(()=>{
+    return list.filter((item)=>item.msg.toLowerCase().includes(query.value))
+})
+
+function onBeforeEnter(el) {
+  el.style.opacity = 0
+  el.style.height = 0
+}
+
+function onEnter(el, done) {
+  gsap.to(el, {
+    opacity: 1,
+    height: '1.6em',
+    delay: el.dataset.index * 0.15,
+    onComplete: done
+  })
+}
+
+function onLeave(el, done) {
+  gsap.to(el, {
+    opacity: 0,
+    height: 0,
+    delay: el.dataset.index * 0.15,
+    onComplete: done
+  })
+}
+
 </script>
 
 <template>
@@ -30,6 +73,22 @@ const isShow = ref(true)
                 </p>
             </Transition>
         </div>
+
+        <div class="transition-container">
+            <input v-model="query">
+            <TransitionGroup 
+            tag="ul"
+            :css="false"
+            @before-enter="onBeforeEnter"
+            @enter="onEnter"
+            @leave="onLeave"
+            >
+                <li v-for="(item, index) in computedList" :key="item.msg" :data-index="index">
+                    {{ item.msg }}
+                </li>
+            </TransitionGroup>
+        </div>
+
     </div>
 </template>
 
@@ -84,4 +143,9 @@ const isShow = ref(true)
         transform: scale(1);
     }
 }
+
+/**
+Section 3 for the  transition group animations
+ */
+
 </style>
